@@ -10,66 +10,15 @@
 
   const ua = navigator.userAgent || navigator.vendor || window.opera;
 
-  // --- Campaign constants ---
-  const UTM = {
-    source: "ikea_web",
-    medium: "qr",
-    campaign: "app_download_w_auto_device_type",
-    content: "lt"
-  };
-
-  // Apple Campaign Links
-  const APPLE_PT = "YOUR_PT_TOKEN";
-  const APPLE_CT = "ikea_web_qr_lt";
-  const APPLE_MT = "8";
-
-  // Base store URLs
-  const IOS_BASE = "https://apps.apple.com/lt/app/ikea-home-furnishings/id1622334309";
-  const ANDROID_BASE = "https://play.google.com/store/apps/details?id=com.ikea.inter.shoppableapp";
-
-  // --- Build URLs with tracking ---
-  const buildIosUrl = () => {
-
-    const qs = [
-      `pt=${encodeURIComponent(APPLE_PT)}`,
-      `ct=${encodeURIComponent(APPLE_CT)}`,
-      `mt=${encodeURIComponent(APPLE_MT)}`,
-      `utm_source=${encodeURIComponent(UTM.source)}`,
-      `utm_medium=${encodeURIComponent(UTM.medium)}`,
-      `utm_campaign=${encodeURIComponent(UTM.campaign)}`,
-      `utm_content=${encodeURIComponent(UTM.content)}`
-    ].join("&");
-
-    return `${IOS_BASE}?${qs}`;
-  };
-
-  const buildAndroidUrl = () => {
-
-    const ref = [
-      `utm_source=${encodeURIComponent(UTM.source)}`,
-      `utm_medium=${encodeURIComponent(UTM.medium)}`,
-      `utm_campaign=${encodeURIComponent(UTM.campaign)}`,
-      `utm_content=${encodeURIComponent(UTM.content)}`
-    ].join("&");
-
-    const outer = [
-      `utm_source=${encodeURIComponent(UTM.source)}`,
-      `utm_medium=${encodeURIComponent(UTM.medium)}`,
-      `utm_campaign=${encodeURIComponent(UTM.campaign)}`,
-      `utm_content=${encodeURIComponent(UTM.content)}`
-    ].join("&");
-
-    return `${ANDROID_BASE}&referrer=${encodeURIComponent(ref)}&${outer}`;
-  };
-
-  const ios = buildIosUrl();
-  const android = buildAndroidUrl();
+  // Final URLs (already containing tracking if needed)
+  const IOS_URL = "https://apps.apple.com/lt/app/apple-store/id1622334309?pt=306328&ct=LT-SocialMediaPost&mt=8";
+  const ANDROID_URL = "https://play.google.com/store/apps/details?id=com.ikea.inter.shoppableapp&referrer=utm_source%3DLT-SocialMediaPost";
 
   // Device detection
   const isAndroid = /android/i.test(ua);
   const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
 
-  const target = isAndroid ? android : (isIOS ? ios : ios);
+  const target = isAndroid ? ANDROID_URL : (isIOS ? IOS_URL : IOS_URL);
 
   // Reliable redirect
   const go = (url) => {
@@ -90,8 +39,8 @@
     const btnIos = document.getElementById("btn-ios");
     const btnAndroid = document.getElementById("btn-android");
 
-    if (btnIos) btnIos.href = ios;
-    if (btnAndroid) btnAndroid.href = android;
+    if (btnIos) btnIos.href = IOS_URL;
+    if (btnAndroid) btnAndroid.href = ANDROID_URL;
 
   }, 900);
 
@@ -121,15 +70,15 @@
 
 <div id="fallback">
   <div style="font-size:16px;margin-bottom:10px;">
-    If nothing happened, open the store manually:
+    Jeigu peradresavimas neįvyko - paspauskite mygtuką:
   </div>
 
-  <a class="btn" id="btn-ios" href="https://apps.apple.com/lt/app/ikea-home-furnishings/id1622334309">
-    Open in App Store
+  <a class="btn" id="btn-ios" href="https://apps.apple.com/lt/app/apple-store/id1622334309?pt=306328&ct=LT-SocialMediaPost&mt=8">
+    Atidaryti per App Store
   </a>
 
-  <a class="btn" id="btn-android" href="https://play.google.com/store/apps/details?id=com.ikea.inter.shoppableapp">
-    Open in Google Play
+  <a class="btn" id="btn-android" href="https://play.google.com/store/apps/details?id=com.ikea.inter.shoppableapp&referrer=utm_source%3DLT-SocialMediaPost">
+    Atidaryti per Google Play
   </a>
 </div>
 
