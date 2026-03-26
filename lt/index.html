@@ -10,17 +10,14 @@
 
   const ua = navigator.userAgent || navigator.vendor || window.opera;
 
-  // Final URLs (already containing tracking if needed)
   const IOS_URL = "https://apps.apple.com/lt/app/apple-store/id1622334309?pt=306328&ct=LT-SocialMediaPost&mt=8";
   const ANDROID_URL = "https://play.google.com/store/apps/details?id=com.ikea.inter.shoppableapp&referrer=utm_source%3DLT-SocialMediaPost";
 
-  // Device detection
   const isAndroid = /android/i.test(ua);
   const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
 
   const target = isAndroid ? ANDROID_URL : (isIOS ? IOS_URL : IOS_URL);
 
-  // Reliable redirect
   const go = (url) => {
     try { window.location.replace(url); } catch(e) {}
     setTimeout(() => {
